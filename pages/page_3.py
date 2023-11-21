@@ -186,7 +186,7 @@ def save_img(n_clicks, figure):
 )
 
 def update_weightlifting(event, attr):
-    event = [event] #måste göra om str till lista
+    event = [event] #måste göra om str till list
     if event is None: event = ["Women's Super-Heavyweight"]
     if attr is None: attr = []
     df = weightlifting[(weightlifting['Event'].isin(event))]
