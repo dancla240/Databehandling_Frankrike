@@ -52,7 +52,6 @@ plt_winter_medals.update_traces(hovertemplate='Medal: %{y}<br>År: %{x}')
 plt_fra_andel = px.line(fra_all_medals, x="Year", y="Andel_%", title="Frankrike: andel medaljer - OS")
 plt_fra_andel.update_layout(yaxis_title="Procent - %", xaxis_title="Year")
 plt_fra_andel.update_traces(line=dict(color='green'))
-
 # Load the 'flatly' theme for the Dash application
 load_figure_template("flatly")
 
@@ -74,10 +73,10 @@ layout = dbc.Container([
             #html.H1("Drop down", className='text-center text-primary mx-3'),
             html.Br(),
             dcc.Dropdown(
-                options = ["All", "Summer", "Winter"],
+                options = ["All Seasons", "Summer", "Winter"],
                 id="multi_dropdown_1",
                 className='mb-2',
-                value="All" 
+                value="All Seasons" 
             )
         ], width=5)
     ], justify="center"),
@@ -102,7 +101,7 @@ layout = dbc.Container([
     Input('multi_dropdown_1', 'value')
 )
 def update_graph(selected_value):
-    if selected_value == "All":
+    if selected_value == "All Seasons":
         return plt_all_years_medals
     elif selected_value == "Summer":
         return plt_summer_medals

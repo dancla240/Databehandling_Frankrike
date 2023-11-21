@@ -146,7 +146,7 @@ layout = dbc.Container([
             dcc.Graph(
                 figure = plt_top_wrestling
             )
-        ], xs=12, sm=11, md=10, lg=5)
+        ], xs=12, sm=11, md=10, lg=9)
     ], justify='center'),
 ], fluid=True)
 
