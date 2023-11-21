@@ -119,8 +119,8 @@ layout = dbc.Container([
                 config={'staticPlot':True},
                 figure={}
             ),
-            html.Button("Download Image", id="download-img-btn", n_clicks=0),
-            dcc.Download(id="img-downloader"),
+            # html.Button("Download Image", id="download-img-btn", n_clicks=0),
+            # dcc.Download(id="img-downloader"),
             html.Br(),
             html.H1("Weightlifting: Age, Weight and Height Analysis over time."),
             html.P("Select class for analysis:"),
@@ -169,15 +169,15 @@ def update_multidropdown(year, events):
                 color='Medal',
                 title=f'Speed Skating medals, between {year[0]} and {year[1]}:')
 
-@callback(
-    Output('img-downloader', 'data'),
-    Input('download-img-btn', 'n_clicks' ),
-    Input('skate-graph','figure')
-)
-def save_img(n_clicks, figure):
-    if n_clicks:
-        img_bytes = figure.to_image(format='png')
-        return dcc.send_bytes(img_bytes, "../Images/speed_skate.png")
+# @callback(
+#     Output('img-downloader', 'data'),
+#     Input('download-img-btn', 'n_clicks' ),
+#     Input('skate-graph','figure')
+# )
+# def save_img(n_clicks, figure):
+#     if n_clicks:
+#         img_bytes = figure.to_image(format='png')
+#         return dcc.send_bytes(img_bytes, "../Images/speed_skate.png")
         
 @callback(
     Output('weightlifting-graph','figure'),
