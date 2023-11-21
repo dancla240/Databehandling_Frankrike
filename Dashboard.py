@@ -1,5 +1,20 @@
-from dash import Dash, html, dcc, callback, Input, Output, dash_table
+from dash import Dash, html, dcc, callback, Input, Output, dash_table, page_registry, page_container
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 from dash_bootstrap_templates import load_figure_template
+
+load_figure_template("flatly")
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], use_pages=True)
+
+app.layout = html.Div([
+    html.Div([
+        html.Div(
+            dcc.Link(f"{page['name']} - {page['path']}", href=page["relative_path"])
+        ) for page in page_registry.values()
+    ]),
+    page_container
+])
+
+app.run(debug=True, port=8051)
