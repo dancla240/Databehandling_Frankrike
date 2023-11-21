@@ -20,4 +20,5 @@ app.layout = dbc.Container([
     page_container,
 ])
 
-app.run(debug=True, port=8051)
+if  __name__ == "__main__":
+    app.run(debug=True, port=8051)
