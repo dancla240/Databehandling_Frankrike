@@ -112,6 +112,7 @@ layout = dbc.Container([
                 max=max(years),
                 step=1,
                 marks=None,
+                value=[1896, 2016],
                 id="RangeSlider",
                 ),
             dcc.Graph(
