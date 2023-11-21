@@ -11,7 +11,10 @@ athlete_events.sort_values(by='Year', inplace=True)
 load_figure_template("flatly")
 
 # Initialize a Dash app with the 'flatly' theme
-register_page(__name__, path='/page_1', title='Page 1')
+register_page(__name__, 
+            path='/page_1',
+            title='Home Page',
+            name='Home Page')
 
 # Define the layout of the app using the Dash Bootstrap Components (dbc)
 layout = dbc.Container([
@@ -106,6 +109,7 @@ layout = dbc.Container([
     Input('country_dropdown', 'value'),
     Input('sport_dropdown', 'value'),
 )
+
 def update_graph(year, country, sport):
     # If no specific filters are applied, provide overall statistics
     if year is None and country is None and sport is None:
@@ -329,15 +333,21 @@ def update_graph(year, country, sport):
         # Calculate the total number of medals for the selected year and sport
         no_of_medals = athlete_events.groupby('Year').get_group(year)['Medal'].count()
 
-        # Medal breakdown by sport for the selected year and sport
-        medal_breakdown = athlete_events[athlete_events['Year'] == year].groupby(['Sport', 'Medal'])['Medal'].count().reset_index(name='Count')
-        top_10_sports = medal_breakdown.groupby('Sport')['Count'].sum().nlargest(10).index
-        top_10_sports_medal_breakdown = medal_breakdown[medal_breakdown['Sport'].isin(top_10_sports)]
-        top_10_sports_medal_breakdown['Total'] = top_10_sports_medal_breakdown.groupby('Sport')['Count'].transform('sum')
-        top_10_sports_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+        filtered_data = athlete_events[(athlete_events['Year'] == year) & (athlete_events['Sport'] == sport)]
 
-        # Create a horizontal stacked bar chart for medal breakdown by sport and year
-        fig_sports = px.bar(top_10_sports_medal_breakdown, y='Sport', x='Count', color='Medal', barmode='stack', orientation='h')
+        # Calculate the medal count for each sport
+        medal_counts = filtered_data.pivot_table(index='Sport', columns='Medal', values='ID', aggfunc='count', fill_value=0)
+
+        # Rename the columns
+        medal_counts.columns = ['Bronze', 'Gold', 'Silver']
+        # Sort the dataframe by medal count in descending order
+        # Display the top 10 sports with medal counts
+        medal_top_10_sports = medal_counts.head(10)
+        medal_top_10_sports['Total'] = medal_top_10_sports.sum(axis=1)
+        medal_top_10_sports.sort_values(by='Total', inplace=True, ascending=True)
+
+        # Create a horizontal stacked bar chart for medal breakdown by athlete for the selected country and sport
+        fig_sports = px.bar(medal_top_10_sports, y=medal_top_10_sports.index, x=['Bronze', 'Silver', 'Gold'], barmode='stack', orientation='h')
         fig_sports.update_traces(marker_color='#CD7F32', selector=dict(name='Bronze'))
         fig_sports.update_traces(marker_color='silver', selector=dict(name='Silver'))
         fig_sports.update_traces(marker_color='gold', selector=dict(name='Gold'))
@@ -379,20 +389,26 @@ def update_graph(year, country, sport):
     # Check if only the 'sport' filter is None (country and year are applied)
     elif sport is None:
         # Calculate the number of competitors for the selected country and year
-        no_of_competitors = athlete_events.groupby('NOC').get_group(country)['Name'].nunique()
+        no_of_competitors = athlete_events.groupby('NOC').get_group(country).groupby('Year').get_group(year)['Name'].nunique()
 
         # Calculate the total number of medals for the selected country and year
-        no_of_medals = athlete_events.groupby('NOC').get_group(country)['Medal'].count()
+        no_of_medals = athlete_events.groupby('NOC').get_group(country).groupby('Year').get_group(year)['Medal'].count()
 
-        # Medal breakdown by sport for the selected country and year
-        medal_breakdown = athlete_events[athlete_events['NOC'] == country].groupby(['Sport', 'Medal'])['Medal'].count().reset_index(name='Count')
-        top_10_sports = medal_breakdown.groupby('Sport')['Count'].sum().nlargest(10).index
-        top_10_sports_medal_breakdown = medal_breakdown[medal_breakdown['Sport'].isin(top_10_sports)]
-        top_10_sports_medal_breakdown['Total'] = top_10_sports_medal_breakdown.groupby('Sport')['Count'].transform('sum')
-        top_10_sports_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+        filtered_data = athlete_events[(athlete_events['Year'] == year) & (athlete_events['NOC'] == country)]
 
-        # Create a horizontal stacked bar chart for medal breakdown by sport for the selected country and year
-        fig_sports = px.bar(top_10_sports_medal_breakdown, y='Sport', x='Count', color='Medal', barmode='stack', orientation='h')
+        # Calculate the medal count for each sport
+        medal_counts = filtered_data.pivot_table(index='Sport', columns='Medal', values='ID', aggfunc='count', fill_value=0)
+
+        # Rename the columns
+        medal_counts.columns = ['Bronze', 'Gold', 'Silver']
+        # Sort the dataframe by medal count in descending order
+        # Display the top 10 sports with medal counts
+        medal_top_10_sports = medal_counts.head(10)
+        medal_top_10_sports['Total'] = medal_top_10_sports.sum(axis=1)
+        medal_top_10_sports.sort_values(by='Total', inplace=True, ascending=True)
+
+        # Create a horizontal stacked bar chart for medal breakdown by athlete for the selected country and sport
+        fig_sports = px.bar(medal_top_10_sports, y=medal_top_10_sports.index, x=['Bronze', 'Silver', 'Gold'], barmode='stack', orientation='h')
         fig_sports.update_traces(marker_color='#CD7F32', selector=dict(name='Bronze'))
         fig_sports.update_traces(marker_color='silver', selector=dict(name='Silver'))
         fig_sports.update_traces(marker_color='gold', selector=dict(name='Gold'))
@@ -439,15 +455,21 @@ def update_graph(year, country, sport):
         # Calculate the total number of medals for the selected country and sport
         no_of_medals = athlete_events.groupby('NOC').get_group(country)['Medal'].count()
 
-        # Medal breakdown by sport for the selected country and sport
-        medal_breakdown = athlete_events[athlete_events['NOC'] == country].groupby(['Sport', 'Medal'])['Medal'].count().reset_index(name='Count')
-        top_10_sports = medal_breakdown.groupby('Sport')['Count'].sum().nlargest(10).index
-        top_10_sports_medal_breakdown = medal_breakdown[medal_breakdown['Sport'].isin(top_10_sports)]
-        top_10_sports_medal_breakdown['Total'] = top_10_sports_medal_breakdown.groupby('Sport')['Count'].transform('sum')
-        top_10_sports_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+        filtered_data = athlete_events[(athlete_events['NOC'] == country) & (athlete_events['Sport'] == sport)]
 
-        # Create a horizontal stacked bar chart for medal breakdown by sport for the selected country and sport
-        fig_sports = px.bar(top_10_sports_medal_breakdown, y='Sport', x='Count', color='Medal', barmode='stack', orientation='h')
+        # Calculate the medal count for each sport
+        medal_counts = filtered_data.pivot_table(index='Sport', columns='Medal', values='ID', aggfunc='count', fill_value=0)
+
+        # Rename the columns
+        medal_counts.columns = ['Bronze', 'Gold', 'Silver']
+        # Sort the dataframe by medal count in descending order
+        # Display the top 10 sports with medal counts
+        medal_top_10_sports = medal_counts.head(10)
+        medal_top_10_sports['Total'] = medal_top_10_sports.sum(axis=1)
+        medal_top_10_sports.sort_values(by='Total', inplace=True, ascending=True)
+
+        # Create a horizontal stacked bar chart for medal breakdown by athlete for the selected country and sport
+        fig_sports = px.bar(medal_top_10_sports, y=medal_top_10_sports.index, x=['Bronze', 'Silver', 'Gold'], barmode='stack', orientation='h')
         fig_sports.update_traces(marker_color='#CD7F32', selector=dict(name='Bronze'))
         fig_sports.update_traces(marker_color='silver', selector=dict(name='Silver'))
         fig_sports.update_traces(marker_color='gold', selector=dict(name='Gold'))
@@ -544,4 +566,3 @@ def update_graph(year, country, sport):
 
     # Return the calculated values and figures
     return no_of_competitors, no_of_medals, fig_sports, fig_athletes, pie_chart_competitors, pie_chart_medals
-
