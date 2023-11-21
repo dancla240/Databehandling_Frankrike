@@ -13,20 +13,11 @@ load_figure_template("flatly")
 # Initialize a Dash app with the 'flatly' theme
 register_page(__name__, 
             path='/page_1',
-            title='Home Page',
-            name='Home Page')
+            title='Page 1',
+            name='Page 1')
 
 # Define the layout of the app using the Dash Bootstrap Components (dbc)
 layout = dbc.Container([
-    dbc.Row([
-        dbc.Col([
-            html.H1('Previous Page')
-        ], width=3),
-        dbc.Col([
-            html.H1('Next Page')
-        ], width=3),
-    ]),
-
     # First Row: Filters for Year, Nation Code, and Sport and also the Title
     dbc.Row([
         dbc.Col([
