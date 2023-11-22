@@ -132,7 +132,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender
         unique_competitors = athlete_events[['Name', 'Sex']].drop_duplicates()
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender")
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender")
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
