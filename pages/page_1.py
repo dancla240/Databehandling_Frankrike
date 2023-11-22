@@ -132,7 +132,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender
         unique_competitors = athlete_events[['Name', 'Sex']].drop_duplicates()
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender")
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender")
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -169,7 +169,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected sport
         unique_competitors = athlete_events[['Name', 'Sex', 'Sport']].drop_duplicates().groupby('Sport').get_group(sport)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -212,7 +212,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected country
         unique_competitors = athlete_events[['Name', 'Sex', 'NOC']].drop_duplicates().groupby('NOC').get_group(country)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -255,7 +255,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected year
         unique_competitors = athlete_events[['Name', 'Sex', 'Year']].drop_duplicates().groupby('Year').get_group(year)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -296,7 +296,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected year and sport
         unique_competitors = athlete_events[['Name', 'Sex', 'Sport', 'Year']].drop_duplicates().groupby('Sport').get_group(sport).groupby('Year').get_group(year)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -336,7 +336,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected country and year
         unique_competitors = athlete_events[['Name', 'Sex', 'NOC', 'Year']].drop_duplicates().groupby('NOC').get_group(country).groupby('Year').get_group(year)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -375,7 +375,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected country and sport
         unique_competitors = athlete_events[['Name', 'Sex', 'NOC', 'Sport']].drop_duplicates().groupby('NOC').get_group(country).groupby('Sport').get_group(sport)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
@@ -417,7 +417,7 @@ def update_graph(year, country, sport):
         # Create a pie chart for competitors by gender for the selected year, country, and sport
         unique_competitors = athlete_events[['Name', 'Sex', 'NOC', 'Year', 'Sport']].drop_duplicates().groupby('NOC').get_group(country).groupby('Year').get_group(year).groupby('Sport').get_group(sport)
         sex_counts = unique_competitors['Sex'].value_counts()
-        pie_chart_competitors = px.pie(names=['Women', 'Men'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
+        pie_chart_competitors = px.pie(names=['Men', 'Women'], values=sex_counts.values, title="Competitors by gender", width=350, height=350)
         pie_chart_competitors.update_traces(textposition='inside', textinfo='percent+label')
         pie_chart_competitors.update_layout(showlegend=False)
 
