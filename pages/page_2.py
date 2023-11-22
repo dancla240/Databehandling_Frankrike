@@ -52,6 +52,22 @@ plt_winter_medals.update_traces(hovertemplate='Medal: %{y}<br>År: %{x}')
 plt_fra_andel = px.line(fra_all_medals, x="Year", y="Andel_%", title="Frankrike: andel medaljer - OS")
 plt_fra_andel.update_layout(yaxis_title="Procent - %", xaxis_title="Year")
 plt_fra_andel.update_traces(line=dict(color='green'))
+
+# Histogram age distribution per Olympic Game:
+only_france_df = athlete_events[athlete_events['Team'] == 'France'] # Filter the dataframe to include only rows where the Team is 'France'
+only_france_df.sort_values(by=['Year'], inplace=True)
+only_france_df.dropna(subset=['Age'], inplace=True)
+# Create a histogram of ages over time
+histogram_ages_over_time = px.histogram(only_france_df, x='Age', title='Histogram of Ages Over Time, France:', animation_frame='Year', range_x=[10, 80])
+# Customize the layout of the histogram
+histogram_ages_over_time.update_layout(
+    xaxis_title='Age',
+    yaxis_title='Count',
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font_color="black",
+    yaxis_range=[0, 100]
+)
 # Load the 'flatly' theme for the Dash application
 load_figure_template("flatly")
 
@@ -93,7 +109,12 @@ layout = dbc.Container([
             html.Br(),
             dcc.Graph(figure=plt_fra_andel, style={'marginTop': '100px'})      
         ], width=10),
-    ], justify="center")
+    ], justify="center"),
+    dbc.Row([
+        dbc.Col([
+            dcc.Graph(figure = histogram_ages_over_time)
+        ])
+    ])
 ], fluid=True)
 
 @callback(
