@@ -56,7 +56,7 @@ plt_fra_andel.update_traces(line=dict(color='green'))
 load_figure_template("flatly")
 
 # Initialize a Dash app with the 'flatly' theme
-register_page(__name__, 
+register_page(__name__,
             path='/page_2',
             title='Frankrike',
             name='Second Page')
@@ -84,15 +84,15 @@ layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             dcc.Graph(id="selected_graph")
-        ], width=9),
-    ], justify="center"),
+        ], width=10),
+     ], justify="center"),
     
     dbc.Row([
         dbc.Col([
             #html.H1("Frankrike: andel medaljer", className='text-center text-primary mx-2'),
             html.Br(),
-            dcc.Graph(figure=plt_fra_andel)      
-        ], width=9),
+            dcc.Graph(figure=plt_fra_andel, style={'marginTop': '100px'})      
+        ], width=10),
     ], justify="center")
 ], fluid=True)
 
