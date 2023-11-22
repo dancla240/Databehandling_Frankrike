@@ -48,9 +48,5 @@ layout = dbc.Container([
         html.P('5. Tyngdlyftning: Ålder, vikt och längdfördelning över tid? Hade varit intressant att plotta resultaten över tid, men vi har inte den datan.'),
         html.P('6. Basket: Top 10 medaljfördelning alla OS.'),
         html.P('7. Brottning: Top 10 medaljfördelning alla OS.'),
-<<<<<<< HEAD
     ], style={'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}),
-=======
-    ]),
->>>>>>> 168585c9658fb1fa85f2233af7a4ecdebcf0ee0d
 ], fluid=True)
