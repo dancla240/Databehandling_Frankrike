@@ -58,7 +58,6 @@ top_ten_basket = top_basket.loc[:9, :]
 
 plt_top_basket = px.bar(top_ten_basket, x="NOC", y=["Gold", "Silver", "Bronze"],
                         barmode="stack", 
-                        title="Top 10 Basketball",
                         color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
 plt_top_basket.update_layout(legend_title_text="Medal", 
                                 yaxis_title="Count",
@@ -75,13 +74,25 @@ top_ten_wrestling = top_wrestling.loc[:9, :]
 
 plt_top_wrestling = px.bar(top_ten_wrestling, x="NOC", y=["Gold", "Silver", "Bronze"],
                         barmode="stack", 
-                        title="Top 10 Wrestling",
                         color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
 plt_top_wrestling.update_layout(legend_title_text="Medal", 
                                 yaxis_title="Count",
                                 xaxis_title="Countries")
 
-#======
+# TUG-OF-WAR
+tug_of_war = athlete_events[athlete_events['Sport'] == "Tug-Of-War"]
+tow_year = tug_of_war.groupby(['Year','Team'])
+my_tow_df = tow_year['Medal'].value_counts()
+my_tow_df = my_tow_df.reset_index()
+tow_fig = px.bar(my_tow_df, x='Year',
+    y='count',
+    color='Medal',
+    text='Year',
+    hover_data='Team',
+    hover_name='Team',
+    color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
+
+#========================================================
 # Load the 'flatly' theme for the Dash application
 load_figure_template("flatly")
 
@@ -94,8 +105,14 @@ register_page(__name__,
 layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("Speed Skating Dashboard", className='text-center text-primary mx-3'),
-            html.Br(),
+            html.H1("Speed Skating", className='text-center text-primary mx-3'),
+            html.P("Number of medals per Team, for selcted event and year interval."),
+            html.Br()
+        ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'}),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.P('Select event:'),
             dcc.Dropdown(
                 id="multi_dropdown",
                 multi=True,
@@ -105,6 +122,10 @@ layout = dbc.Container([
                 options=[event for event in speed_skating_gb_df['Event'].unique()],
                 value=["Men's 1,500 metres"]
             ),
+        ], xs=12, sm=11, md=10, lg=9),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
             html.Br(),
             html.P("Select year interval:"),
             dcc.RangeSlider(
@@ -114,40 +135,74 @@ layout = dbc.Container([
                 marks=None,
                 value=[1896, 2016],
                 id="RangeSlider",
-                ),
+            ),
+        ], xs=12, sm=11, md=10, lg=9),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
             dcc.Graph(
                 id='skate_graph',
                 config={'staticPlot':True},
                 figure={}
             ),
-            # html.Button("Download Image", id="download-img-btn", n_clicks=0),
-            # dcc.Download(id="img-downloader"),
+        ], xs=12, sm=11, md=10, lg=9),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.H1("Weightlifting", className='text-center text-primary mx-3'),
+            html.P("Age, Weight and Height Analysis of all participants, over time.",style={'text-align': 'center'}),
             html.Br(),
-            html.H1("Weightlifting: Age, Weight and Height Analysis over time."),
-            html.P("Select class for analysis:"),
+            html.P("Select event:"),
             dcc.RadioItems(
                 options=[event for event in weightlifting['Event'].unique()],
                 id="weightlifting-event",
-                value="Women's Super-Heavyweight"
+                inline=True,
+                value="Women's Super-Heavyweight",
+                style={'margin': '30px'}
             ),
-            html.P("Select analysis:"),
+        ], xs=12, sm=11, md=10, lg=9),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.Br(),
+            html.P("Select attribute:"),
             dcc.RadioItems(
                 ['Age','Weight','Height'],
                 id="weightlifting-attr",
-                value='Age'
+                inline=True,
+                value='Age',
+                style={'margin': '30px'}
             ),
+        ], xs=12, sm=11, md=10, lg=9,),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
             dcc.Graph(
                 id='weightlifting-graph',
                 config={'staticPlot':True},
                 figure={}
             ),
+        ], xs=12, sm=11, md=10, lg=9),
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.H1('Basketball', className='text-center text-primary mx-3'),
+            html.P('Top-10 countries, all Olympic Games.'),
             dcc.Graph(
                 figure = plt_top_basket
             ),
+            html.H1('Wrestling', className='text-center text-primary mx-3'),
+            html.P('Top 10 countries, all Olympic Games.'),
             dcc.Graph(
                 figure = plt_top_wrestling
+            ),
+            html.Br(),
+            html.H1('Tug-Of-War', className='text-center text-primary mx-3'),
+            html.P('Awarded medals. Hover to read Team name.'),
+            dcc.Graph(
+                figure = tow_fig
             )
-        ], xs=12, sm=11, md=10, lg=9)
+        ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'})
     ], justify='center'),
 ], fluid=True)
 
@@ -162,23 +217,17 @@ def update_multidropdown(year, events):
     if events is None: events = []
     if year is None: year = [1896, 1922]
     df = speed_skating_gb_df[(speed_skating_gb_df['Event'].isin(events)) & (speed_skating_gb_df['Year'] >= year[0]) & (speed_skating_gb_df['Year'] <= year[1])]
-    return px.bar(df,
+    fig_speed_skating = px.bar(df,
                 x='Team',
                 y='Medal Count',
                 hover_name='Event',
                 hover_data='Event',
                 color='Medal',
-                title=f'Speed Skating medals, between {year[0]} and {year[1]}:')
+                color_discrete_sequence=['#CD7F32', '#FFD700', '#C0C0C0'],
+                title=f'Speed Skating medals, between {year[0]} and {year[1]}, per Team:')
+    fig_speed_skating.update_layout(title={'xanchor': 'center','x': 0.5,'yanchor': 'top','font': {'size': 20}})
 
-# @callback(
-#     Output('img-downloader', 'data'),
-#     Input('download-img-btn', 'n_clicks' ),
-#     Input('skate-graph','figure')
-# )
-# def save_img(n_clicks, figure):
-#     if n_clicks:
-#         img_bytes = figure.to_image(format='png')
-#         return dcc.send_bytes(img_bytes, "../Images/speed_skate.png")
+    return fig_speed_skating
         
 @callback(
     Output('weightlifting-graph','figure'),
@@ -191,8 +240,12 @@ def update_weightlifting(event, attr):
     if event is None: event = ["Women's Super-Heavyweight"]
     if attr is None: attr = []
     df = weightlifting[(weightlifting['Event'].isin(event))]
-    return px.box(
-        df,
+    fig_weightlifting = px.box(
+        df,                               
         x='Year',
         y=attr,
-        title=f'{attr} for {event[0]}.')
+        title=f'{attr} for {event[0]}:')
+    
+    fig_weightlifting.update_layout(title={'xanchor': 'center','x': 0.5,'yanchor': 'top','font': {'size': 20}})
+
+    return fig_weightlifting

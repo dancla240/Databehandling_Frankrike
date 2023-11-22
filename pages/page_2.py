@@ -24,7 +24,7 @@ fra_all_medals["Andel_%"] = (fra_all_medals.loc[:, "Medal"] / all_medals.loc[:, 
 # FRA all medals
 plt_all_years_medals = px.bar(all_year_medals, x="Year", y=["Gold", "Silver", "Bronze"],
                               barmode="stack", 
-                              title="Frankrike: OS",
+                              title="France medals: Summer and Winter Games.",
                               color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
 plt_all_years_medals.update_layout(legend_title_text="Medal", 
                                 yaxis_title="Count",
@@ -33,7 +33,7 @@ plt_all_years_medals.update_traces(hovertemplate='Medaljer: %{y}<br>År: %{x}')
 # FRA medal Summer OS
 plt_summer_medals = px.bar(summer_medals, x="Year", y=["Gold", "Silver", "Bronze"],
                             barmode="stack",
-                            title="Frankrike: Sommar OS",
+                            title="France medals: Summer Games.",
                             color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
 plt_summer_medals.update_layout(legend_title_text="Medal", 
                                 yaxis_title="Count",
@@ -42,14 +42,14 @@ plt_summer_medals.update_traces(hovertemplate='Medal: %{y}<br>År: %{x}')
 # FRA medal Winter OS 
 plt_winter_medals = px.bar(winter_medals, x="Year", y=["Gold", "Silver", "Bronze"],
                             barmode="stack",
-                            title="Frankrike: Vinter OS",
+                            title="France medals: Winter Games.",
                             color_discrete_sequence=['#FFD700', '#C0C0C0', '#CD7F32'])
 plt_winter_medals.update_layout(legend_title_text="Medal", 
                                 yaxis_title="Count",
                                 xaxis_title="Year")
 plt_winter_medals.update_traces(hovertemplate='Medal: %{y}<br>År: %{x}')
 # FRA procent/year OS 
-plt_fra_andel = px.line(fra_all_medals, x="Year", y="Andel_%", title="Frankrike: andel medaljer - OS")
+plt_fra_andel = px.line(fra_all_medals, x="Year", y="Andel_%")
 plt_fra_andel.update_layout(yaxis_title="Procent - %", xaxis_title="Year")
 plt_fra_andel.update_traces(line=dict(color='green'))
 
@@ -58,7 +58,7 @@ only_france_df = athlete_events[athlete_events['Team'] == 'France'] # Filter the
 only_france_df.sort_values(by=['Year'], inplace=True)
 only_france_df.dropna(subset=['Age'], inplace=True)
 # Create a histogram of ages over time
-histogram_ages_over_time = px.histogram(only_france_df, x='Age', title='Histogram of Ages Over Time, France:', animation_frame='Year', range_x=[10, 80])
+histogram_ages_over_time = px.histogram(only_france_df, x='Age', animation_frame='Year', range_x=[10, 80])
 # Customize the layout of the histogram
 histogram_ages_over_time.update_layout(
     xaxis_title='Age',
@@ -80,41 +80,44 @@ register_page(__name__,
 layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("Frankrike", className='text-center text-primary mx-3'),
-            html.Br()
-        ], width=12, style={'text-align': 'center'})
-    ]),
+            html.H1("France", className='text-center text-primary mx-3'),
+            html.P("Analysis of France's performance in Olympic Games.")
+        ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'})
+    ], justify='center'),
     dbc.Row([
         dbc.Col([
             #html.H1("Drop down", className='text-center text-primary mx-3'),
             html.Br(),
             dcc.Dropdown(
-                options = ["All Seasons", "Summer", "Winter"],
+                options = ["Summer and Winter Games", "Summer Games", "Winter Games"],
                 id="multi_dropdown_1",
                 className='mb-2',
-                value="All Seasons" 
+                value="Summer and Winter Games" 
             )
-        ], width=5)
+        ], xs=12, sm=11, md=10, lg=9)
     ], justify="center"),
     
     dbc.Row([
         dbc.Col([
             dcc.Graph(id="selected_graph")
-        ], width=10),
+        ], xs=12, sm=11, md=10, lg=9),
      ], justify="center"),
     
     dbc.Row([
         dbc.Col([
-            #html.H1("Frankrike: andel medaljer", className='text-center text-primary mx-2'),
+            html.H3("Percentage of medals:", style={'text-align':'center','marginTop': '50px'}),
+            html.P('Percentage of all medals won by France, per Olympic Game', style={'text-align':'center'}),
             html.Br(),
-            dcc.Graph(figure=plt_fra_andel, style={'marginTop': '100px'})      
-        ], width=10),
+            dcc.Graph(figure=plt_fra_andel)      
+        ], xs=12, sm=11, md=10, lg=9),
     ], justify="center"),
     dbc.Row([
         dbc.Col([
+            html.H3('Age distribution:', style={'text-align':'center','marginTop': '50px'}),
+            html.P('Age distribution for France, per Olympic Game', style={'text-align':'center'}),
             dcc.Graph(figure = histogram_ages_over_time)
-        ])
-    ])
+        ], xs=12, sm=11, md=10, lg=9, style={'marginBottom':'130px'})
+    ], justify="center")
 ], fluid=True)
 
 @callback(
@@ -122,9 +125,9 @@ layout = dbc.Container([
     Input('multi_dropdown_1', 'value')
 )
 def update_graph(selected_value):
-    if selected_value == "All Seasons":
+    if selected_value == "Summer and Winter Games":
         return plt_all_years_medals
-    elif selected_value == "Summer":
+    elif selected_value == "Summer Games":
         return plt_summer_medals
-    elif selected_value == "Winter":
+    elif selected_value == "Winter Games":
         return plt_winter_medals

@@ -22,7 +22,7 @@ layout = dbc.Container([
         html.H3('Grupp Frankrike:')
     ]),
     dbc.Row([
-        html.P('Medlemmar: Asajad, Arsen, Daniel.')
+        html.P('Medlemmar: Asajad, Arsen, Daniel.', style={'margin':'30px'})
     ]),
     dbc.Row([
         html.H3('Frågeställningar Frankrike:')
