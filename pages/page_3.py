@@ -103,105 +103,119 @@ register_page(__name__,
             name='Sportanalys')
 
 layout = dbc.Container([
+    html.Br(),
+    dbc.Row([
+        dbc.Row([
+            dbc.Col([
+                html.H1("Speed Skating", className='text-center text-primary mx-3'),
+                html.P("Number of medals per Team, for selcted event and year interval."),
+                html.Br()
+            ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'}),
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                html.P('Select event:'),
+                dcc.Dropdown(
+                    id="multi_dropdown",
+                    multi=True,
+                    searchable=False, 
+                    className='mb-2',
+                    placeholder='Select event',
+                    options=[event for event in speed_skating_gb_df['Event'].unique()],
+                    value=["Men's 1,500 metres"]
+                ),
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                html.Br(),
+                html.P("Select year interval:"),
+                dcc.RangeSlider(
+                    min=min(years),
+                    max=max(years),
+                    step=1,
+                    marks=None,
+                    value=[1896, 2016],
+                    id="RangeSlider",
+                ),
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(
+                    id='skate_graph',
+                    config={'staticPlot':True},
+                    figure={}
+                ),
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify='center'),
+    ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+    html.Br(),
+    dbc.Row([
+        dbc.Row([
+            dbc.Col([
+                html.H1("Weightlifting", className='text-center text-primary mx-3'),
+                html.P("Age, Weight and Height Analysis of all participants, over time.",style={'text-align': 'center'}),
+                html.Br(),
+                html.P("Select event:"),
+                dcc.RadioItems(
+                    options=[event for event in weightlifting['Event'].unique()],
+                    id="weightlifting-event",
+                    inline=True,
+                    value="Women's Super-Heavyweight",
+                    style={'margin': '30px'}
+                ),
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                html.Br(),
+                html.P("Select attribute:"),
+                dcc.RadioItems(
+                    ['Age','Weight','Height'],
+                    id="weightlifting-attr",
+                    inline=True,
+                    value='Age',
+                    style={'margin': '30px'}
+                ),
+            ], xs=12, sm=11, md=10, lg=9,),
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(
+                    id='weightlifting-graph',
+                    config={'staticPlot':True},
+                    figure={}
+                ),
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify='center'),
+    ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+    html.Br(),
     dbc.Row([
         dbc.Col([
-            html.H1("Speed Skating", className='text-center text-primary mx-3'),
-            html.P("Number of medals per Team, for selcted event and year interval."),
-            html.Br()
-        ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'}),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            html.P('Select event:'),
-            dcc.Dropdown(
-                id="multi_dropdown",
-                multi=True,
-                searchable=False, 
-                className='mb-2',
-                placeholder='Select event',
-                options=[event for event in speed_skating_gb_df['Event'].unique()],
-                value=["Men's 1,500 metres"]
-            ),
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
+            dbc.Row([
+                html.H1('Basketball', className='text-center text-primary mx-3'),
+                html.P('Top-10 countries, all Olympic Games.'),
+                dcc.Graph(
+                    figure = plt_top_basket
+                ),
+            ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
             html.Br(),
-            html.P("Select year interval:"),
-            dcc.RangeSlider(
-                min=min(years),
-                max=max(years),
-                step=1,
-                marks=None,
-                value=[1896, 2016],
-                id="RangeSlider",
-            ),
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            dcc.Graph(
-                id='skate_graph',
-                config={'staticPlot':True},
-                figure={}
-            ),
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            html.H1("Weightlifting", className='text-center text-primary mx-3'),
-            html.P("Age, Weight and Height Analysis of all participants, over time.",style={'text-align': 'center'}),
+            dbc.Row([
+                html.H1('Wrestling', className='text-center text-primary mx-3'),
+                html.P('Top 10 countries, all Olympic Games.'),
+                dcc.Graph(
+                    figure = plt_top_wrestling
+                ),
+            ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
             html.Br(),
-            html.P("Select event:"),
-            dcc.RadioItems(
-                options=[event for event in weightlifting['Event'].unique()],
-                id="weightlifting-event",
-                inline=True,
-                value="Women's Super-Heavyweight",
-                style={'margin': '30px'}
-            ),
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            html.Br(),
-            html.P("Select attribute:"),
-            dcc.RadioItems(
-                ['Age','Weight','Height'],
-                id="weightlifting-attr",
-                inline=True,
-                value='Age',
-                style={'margin': '30px'}
-            ),
-        ], xs=12, sm=11, md=10, lg=9,),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            dcc.Graph(
-                id='weightlifting-graph',
-                config={'staticPlot':True},
-                figure={}
-            ),
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify='center'),
-    dbc.Row([
-        dbc.Col([
-            html.H1('Basketball', className='text-center text-primary mx-3'),
-            html.P('Top-10 countries, all Olympic Games.'),
-            dcc.Graph(
-                figure = plt_top_basket
-            ),
-            html.H1('Wrestling', className='text-center text-primary mx-3'),
-            html.P('Top 10 countries, all Olympic Games.'),
-            dcc.Graph(
-                figure = plt_top_wrestling
-            ),
-            html.Br(),
-            html.H1('Tug-Of-War', className='text-center text-primary mx-3'),
-            html.P('Awarded medals. Hover to read Team name.'),
-            dcc.Graph(
-                figure = tow_fig
-            )
+            dbc.Row([
+                html.H1('Tug-Of-War', className='text-center text-primary mx-3'),
+                html.P('Awarded medals. Hover to read Team name.'),
+                dcc.Graph(
+                    figure = tow_fig
+                ),
+            ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
         ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'})
     ], justify='center'),
 ], fluid=True)

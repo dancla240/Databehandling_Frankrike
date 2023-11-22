@@ -58,7 +58,7 @@ only_france_df = athlete_events[athlete_events['Team'] == 'France'] # Filter the
 only_france_df.sort_values(by=['Year'], inplace=True)
 only_france_df.dropna(subset=['Age'], inplace=True)
 # Create a histogram of ages over time
-histogram_ages_over_time = px.histogram(only_france_df, x='Age', animation_frame='Year', range_x=[10, 80])
+histogram_ages_over_time = px.histogram(only_france_df, x='Age', animation_frame='Year', range_x=[10, 90])
 # Customize the layout of the histogram
 histogram_ages_over_time.update_layout(
     xaxis_title='Age',
@@ -66,6 +66,7 @@ histogram_ages_over_time.update_layout(
     paper_bgcolor="white",
     plot_bgcolor="white",
     font_color="black",
+    bargap=0.1,
     yaxis_range=[0, 100]
 )
 # Load the 'flatly' theme for the Dash application
@@ -78,46 +79,52 @@ register_page(__name__,
             name='Second Page')
 
 layout = dbc.Container([
+    html.Br(),
     dbc.Row([
-        dbc.Col([
-            html.H1("France", className='text-center text-primary mx-3'),
-            html.P("Analysis of France's performance in Olympic Games.")
-        ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'})
-    ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                html.H1("France", className='text-center text-primary mx-3'),
+                html.P("Analysis of France's performance in Olympic Games.")
+            ], xs=12, sm=11, md=10, lg=9, style={'text-align': 'center'})
+        ], justify='center'),
+        dbc.Row([
+            dbc.Col([
+                #html.H1("Drop down", className='text-center text-primary mx-3'),
+                html.Br(),
+                dcc.Dropdown(
+                    options = ["Summer and Winter Games", "Summer Games", "Winter Games"],
+                    id="multi_dropdown_1",
+                    className='mb-2',
+                    value="Summer and Winter Games" 
+                )
+            ], xs=12, sm=11, md=10, lg=9)
+        ], justify="center"),
+        
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(id="selected_graph")
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify="center"),
+    ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),    
+    html.Br(),
     dbc.Row([
-        dbc.Col([
-            #html.H1("Drop down", className='text-center text-primary mx-3'),
-            html.Br(),
-            dcc.Dropdown(
-                options = ["Summer and Winter Games", "Summer Games", "Winter Games"],
-                id="multi_dropdown_1",
-                className='mb-2',
-                value="Summer and Winter Games" 
-            )
-        ], xs=12, sm=11, md=10, lg=9)
-    ], justify="center"),
-    
-    dbc.Row([
-        dbc.Col([
-            dcc.Graph(id="selected_graph")
-        ], xs=12, sm=11, md=10, lg=9),
-     ], justify="center"),
-    
-    dbc.Row([
-        dbc.Col([
-            html.H3("Percentage of medals:", style={'text-align':'center','marginTop': '50px'}),
-            html.P('Percentage of all medals won by France, per Olympic Game', style={'text-align':'center'}),
-            html.Br(),
-            dcc.Graph(figure=plt_fra_andel)      
-        ], xs=12, sm=11, md=10, lg=9),
-    ], justify="center"),
+        dbc.Row([
+            dbc.Col([
+                html.H3("Percentage of medals:", style={'text-align':'center','marginTop': '50px'}),
+                html.P('Percentage of all medals won by France, per Olympic Game', style={'text-align':'center'}),
+                html.Br(),
+                dcc.Graph(figure=plt_fra_andel)      
+            ], xs=12, sm=11, md=10, lg=9),
+        ], justify="center"),
+    ], style={'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+    html.Br(),
     dbc.Row([
         dbc.Col([
             html.H3('Age distribution:', style={'text-align':'center','marginTop': '50px'}),
             html.P('Age distribution for France, per Olympic Game', style={'text-align':'center'}),
             dcc.Graph(figure = histogram_ages_over_time)
-        ], xs=12, sm=11, md=10, lg=9, style={'marginBottom':'130px'})
-    ], justify="center")
+        ], xs=12, sm=11, md=10, lg=9)
+    ], justify="center", style={'margin-bottom': '20px', 'border-width': '0px', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'})
 ], fluid=True)
 
 @callback(
