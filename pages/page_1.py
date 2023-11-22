@@ -22,9 +22,6 @@ layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             dbc.Row([
-                html.H1('Olympic Games', style={'fontSize': '30px', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'padding-top': '10px', 'padding-bottom': '10px'}),
-            ], justify='center', style={}),
-            dbc.Row([
                 dbc.Col([
                     html.H3('Year', style={'fontSize': '24px'}, className="mt-2"),
                     dcc.Dropdown(
@@ -33,7 +30,7 @@ layout = dbc.Container([
                         value=None,
                         style={'width': '95%'}
                     ),
-                ], width = 3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px'}),
+                ], width = 3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px', 'margin-left': 'auto', 'margin-right': 'auto'}),
                 dbc.Col([
                     html.H3('Nation Code', style={'fontSize': '24px'}, className="mt-2"),
                     dcc.Dropdown(
@@ -42,7 +39,7 @@ layout = dbc.Container([
                         value=None,
                         style={'width': '95%'}
                     ),
-                ], width = 3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px'}),
+                ], width = 3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px', 'margin-left': 'auto', 'margin-right': 'auto'}),
                 dbc.Col([
                     html.Div(
                         [html.H3('Sport', style={'fontSize': '24px'}, className="mt-2"),
@@ -53,35 +50,40 @@ layout = dbc.Container([
                             style={'width': '95%'}
                         )],
                     ),
-                ], width=3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px'}),
+                ], width = 3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center', 'margin-top': '10px', 'margin-left': 'auto', 'margin-right': 'auto'}),
+                
+            ], style={'margin-bottom': '10px'}),
+            dbc.Row([
                 dbc.Col([
                     html.Div(
                         [html.H3('No. of competitors:', style={'fontSize': '20px', }),
                         html.H3(id="no_competitors")],
                         style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}
                     ),
+                ], width = 5),    
+                dbc.Col([    
                     html.Div(
                         [html.H3('No. of Medals:', style={'fontSize': '20px'}),
                         html.H3(id="no_medals")],
                         style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}
                     )
-                ], width = 3),
-            ]),
+                ], width = 5),
+            ], justify='center', style={}),
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(id='pie_chart_competitor_gender', style={'margin-top': '20px'}),
-                ], xs=11, sm=11, md=10, lg=6, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+                ], xs=11, sm=11, md=10, lg=6, style={'margin-bottom': '10px', 'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
 
                 dbc.Col([
                     dcc.Graph(id="pie_chart_medal_gender", style={'margin-top': '20px'}),
-                ], xs=11, sm=11, md=10, lg=6, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
-            ])
+                ], xs=11, sm=11, md=10, lg=6, style={'margin-bottom': '10px', 'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+            ], justify='center')
         ], xs=11, sm=11, md=10, lg=6),
         # Third Column: Medal Breakdown by Top 10 Sports & Type
         dbc.Col([
             html.H3('Medal Breakdown By Top 10 Sports & Type', style={'fontSize': '16px'}),
             dcc.Graph(id='medal_breakdown_sport')
-        ], xs=11, sm=11, md=10, lg=3, style={'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
+        ], xs=11, sm=11, md=10, lg=3, style={'margin-bottom': '10px', 'border-color': 'black', 'border-width': '0px', 'border-style': 'solid', 'border-radius': '20px', 'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)'}),
 
         # Fourth Column: Medal Breakdown By Top 10 Athlete & Type
         dbc.Col([
@@ -464,7 +466,7 @@ def medal_breakdown_sports_double_selected(arg1, arg2, arg3, arg4):
     filtered_data = athlete_events[(athlete_events[arg1] == arg2) & (athlete_events[arg3] == arg4)]
     medal_counts = filtered_data.pivot_table(index='Sport', columns='Medal', values='ID', aggfunc='count', fill_value=0)
     medal_counts.columns = ['Bronze', 'Gold', 'Silver']
-    medal_top_10_sports = medal_counts.head(10)
+    medal_top_10_sports = medal_counts.head(10).fillna(0)
     medal_top_10_sports['Total'] = medal_top_10_sports.sum(axis=1)
     medal_top_10_sports.sort_values(by='Total', inplace=True, ascending=True)
     return medal_top_10_sports
@@ -483,7 +485,7 @@ def medal_breakdown_athletes_none_selected():
     top_10_athletes = medal_breakdown.groupby('Name')['Count'].sum().nlargest(10).index
     top_10_athletes_medal_breakdown = medal_breakdown[medal_breakdown['Name'].isin(top_10_athletes)]
     top_10_athletes_medal_breakdown['Total'] = top_10_athletes_medal_breakdown.groupby('Name')['Count'].transform('sum')
-    top_10_athletes_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+    top_10_athletes_medal_breakdown.sort_values(by=['Total', 'Name'], ascending=True, inplace=True)
     return top_10_athletes_medal_breakdown
 
 def medal_breakdown_athletes_single_selected(arg1, arg2):
@@ -491,7 +493,7 @@ def medal_breakdown_athletes_single_selected(arg1, arg2):
     top_10_athletes = athlete_medal_count.groupby('Name')['Count'].sum().nlargest(10).index
     top_10_athletes_medal_breakdown = athlete_medal_count[athlete_medal_count['Name'].isin(top_10_athletes)]
     top_10_athletes_medal_breakdown['Total'] = top_10_athletes_medal_breakdown.groupby('Name')['Count'].transform('sum')
-    top_10_athletes_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+    top_10_athletes_medal_breakdown.sort_values(by=['Total', 'Name'], ascending=True, inplace=True)
     return top_10_athletes_medal_breakdown
 
 def medal_breakdown_athletes_double_selected(arg1, arg2, arg3, arg4):
@@ -499,13 +501,13 @@ def medal_breakdown_athletes_double_selected(arg1, arg2, arg3, arg4):
     top_10_athletes = athlete_medal_count.groupby('Name')['Count'].sum().nlargest(10).index
     top_10_athletes_medal_breakdown = athlete_medal_count[athlete_medal_count['Name'].isin(top_10_athletes)]
     top_10_athletes_medal_breakdown['Total'] = top_10_athletes_medal_breakdown.groupby('Name')['Count'].transform('sum')
-    top_10_athletes_medal_breakdown.sort_values(by='Total', ascending=True)
+    top_10_athletes_medal_breakdown.sort_values(by=['Total', 'Name'], ascending=True)
     return top_10_athletes_medal_breakdown
 
 def medal_breakdown_athletes_triple_selected(arg1, arg2, arg3, arg4, arg5, arg6):
     athlete_medal_count = athlete_events[(athlete_events[arg1] == arg2) & (athlete_events[arg3] == arg4) & (athlete_events[arg5] == arg6)].groupby(['Name', 'Medal'])['Medal'].count().reset_index(name='Count')
     athletes_medal_breakdown = athlete_medal_count
     athletes_medal_breakdown['Total'] = athletes_medal_breakdown.groupby('Name')['Count'].transform('sum')
-    athletes_medal_breakdown.sort_values(by='Total', ascending=True, inplace=True)
+    athletes_medal_breakdown.sort_values(by=['Total', 'Name'], ascending=True, inplace=True)
     top_10_athletes_medal_breakdown = athletes_medal_breakdown.tail(10)
     return top_10_athletes_medal_breakdown
