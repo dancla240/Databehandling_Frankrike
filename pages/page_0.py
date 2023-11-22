@@ -35,18 +35,22 @@ layout = dbc.Container([
         html.P('2. Har Frankrike varit mest framgångsrikt i sommar eller vinter OS?'),
         html.P('3. Finns det någon tid i historien som kan sägas vara Frankrikes storhetstid i OS?'),
         html.P('4. Vilket var Frankrikes bästa OS?'),
-        html.P('5. Vilka sporter har Frankrike varit sämst i? Finns det någon sport de inte fått medalj i, tex?'),
+        html.P('5. Hur ser könsfördelningen ut i olika sportgrenar?'),
         html.P('6. Hur ser åldersfördelningen ut för Frankrike genom åren?'),
     ], style={'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}),
     html.Br(),
     dbc.Row([
         html.H3(html.U('Frågeställningar sporter:'), style={'font-weight': 'bold'}),
         html.P('1. Titta igenom sporterna genom tiderna, vilka sporter har varit OS-sporter?'),
-        html.P('2. Finns det några gamla intressanta sporter att analysera? Eller sporter som vi är intresserade av?'),
+        html.P('2. Finns det några intressanta sporter att analysera?'),
         html.P('3. Dragkamp (Tug-Of-War): Medaljfördelning genom åren?'),
         html.P('4. Speed Skating: Medaljfördelning. Det finns mycket data för sporten.'),
         html.P('5. Tyngdlyftning: Ålder, vikt och längdfördelning över tid? Hade varit intressant att plotta resultaten över tid, men vi har inte den datan.'),
         html.P('6. Basket: Top 10 medaljfördelning alla OS.'),
         html.P('7. Brottning: Top 10 medaljfördelning alla OS.'),
+<<<<<<< HEAD
     ], style={'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}),
+=======
+    ]),
+>>>>>>> 168585c9658fb1fa85f2233af7a4ecdebcf0ee0d
 ], fluid=True)
