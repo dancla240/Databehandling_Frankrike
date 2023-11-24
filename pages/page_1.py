@@ -278,7 +278,7 @@ def update_graph(year, country, sport):
     # Check if only the 'country' filter is None (year and sport are applied)
     elif country is None:
         # Calculate the number of competitors for the selected year and sport
-        no_of_competitors = athlete_events.groupby('Year').get_group(year)['Name'].nunique()
+        no_of_competitors = athlete_events.groupby('Year').get_group(year).groupby('Sport').get_group(sport)['Name'].nunique()
 
         # Calculate the total number of medals for the selected year and sport
         no_of_medals = athlete_events.groupby('Year').get_group(year)['Medal'].count()
@@ -398,7 +398,7 @@ def update_graph(year, country, sport):
     # Check if all filters are applied
     else:
         # Calculate the number of competitors for the selected year, country and sport
-        no_of_competitors = athlete_events[(athlete_events['Year'] == year) & (athlete_events['NOC'] == country)]['Name'].nunique()
+        no_of_competitors = athlete_events[(athlete_events['Year'] == year) & (athlete_events['NOC'] == country) & (athlete_events['Sport'] == sport)]['Name'].nunique()
 
         # Calculate the total number of medals for the selected year, country and sport
         no_of_medals = athlete_events[(athlete_events['Year'] == year) & (athlete_events['NOC'] == country) & (athlete_events['Sport'] == sport)]['Medal'].count()

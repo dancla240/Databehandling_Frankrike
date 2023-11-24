@@ -22,7 +22,7 @@ layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H3('Grupp Frankrike:', style={'font-weight': 'bold'}),
-            html.P('Medlemmar: Asajad, Arsen, Daniel.', style={})
+            html.P('Medlemmar: Asajad, Arsen, Daniel.')
         ], width=4, style={'box-shadow': '0px 0px 14px 5px rgba(32,73,179,0.75)', 'text-align': 'center'}),
         dbc.Col([
             html.H1('Olympiska Spelen', style={'font-weight': 'bold', 'color': 'rgba(32,73,179,0.75)', 'text-align': 'center', 'padding-top': '10px'}),
